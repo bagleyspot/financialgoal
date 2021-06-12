@@ -1,0 +1,30 @@
+package come.project.financialgoalbe.entities;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@Entity
+@Table ( name = "Country")
+public class Country {
+	
+	@Id
+	@GeneratedValue ( strategy = GenerationType.IDENTITY)
+	@Column ( name = "idCountry")
+	Long idCountry;
+	
+	@Column ( name = "shortName")
+	String shortName;
+	
+	@Column ( name = "longName")
+	String longName;
+
+}

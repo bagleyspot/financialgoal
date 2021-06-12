@@ -1,0 +1,52 @@
+package come.project.financialgoalbe.response;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import come.project.financialgoalbe.entities.Bond;
+import come.project.financialgoalbe.entities.Country;
+import come.project.financialgoalbe.entities.Market;
+import come.project.financialgoalbe.repository.BondRepository;
+import come.project.financialgoalbe.repository.MarketRepository;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class CountryResponse {
+	
+	@Autowired
+	BondRepository bondRepository;
+	
+	@Autowired
+	MarketRepository marketRepository;
+	
+	private Long idCountry;
+	
+	private String shortName;
+	
+	private String longName;
+	
+	public CountryResponse toResponse(Country obj) {
+		this.idCountry=obj.getIdCountry();
+		this.shortName=obj.getShortName();
+		this.longName=obj.getLongName();
+		return this;
+	}
+	
+	public Country toEntity() {
+		Country country = new Country();
+		country.setIdCountry(this.idCountry);
+		country.setShortName(this.shortName);
+		country.setLongName(this.longName);
+		List<Bond> listBond = bondRepository.findBondByCountry(this.shortName);
+		country.setBond(listBond);
+		List<Market> listMarket = marketRepository.findMarketByCountry(this.shortName);
+		country.setMarket(listMarket);
+		
+		
+		return country;
+	}
+
+}

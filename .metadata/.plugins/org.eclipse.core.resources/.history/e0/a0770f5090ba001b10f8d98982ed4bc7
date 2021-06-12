@@ -1,0 +1,18 @@
+package come.project.financialgoalbe.entities;
+
+import javax.persistence.Entity;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@Entity
+public class Folder {
+	
+	Long idFolder;
+	String shortName;
+	String longName;
+	User owner;
+
+}

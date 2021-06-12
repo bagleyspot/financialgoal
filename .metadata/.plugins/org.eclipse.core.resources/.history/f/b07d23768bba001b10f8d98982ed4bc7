@@ -1,0 +1,10 @@
+package come.project.financialgoalbe.entities;
+
+public class Folder {
+	
+	Long idFolder;
+	String shortName;
+	String longName;
+	User owner;
+
+}

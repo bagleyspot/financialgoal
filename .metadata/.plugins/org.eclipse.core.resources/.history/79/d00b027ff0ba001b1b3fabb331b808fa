@@ -1,0 +1,8 @@
+package come.project.financialgoalbe.service;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class FinancialGoalService {
+
+}

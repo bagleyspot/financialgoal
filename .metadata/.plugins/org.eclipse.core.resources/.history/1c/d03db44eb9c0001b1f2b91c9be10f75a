@@ -1,0 +1,11 @@
+package come.project.financialgoalbe.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import come.project.financialgoalbe.entities.EquityDeal;
+
+public interface EquityDealRepository extends JpaRepository<EquityDeal,Long>{
+	
+	public EquityDeal save(EquityDeal equityDeal);
+
+}

@@ -1,0 +1,36 @@
+package come.project.financialgoalbe.entities;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+import javax.persistence.Entity;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@Entity
+public class Equity {
+	
+	Long idEquity;
+	
+	String isin;
+	
+	String folder;
+	
+	BigDecimal price;
+	
+	BigDecimal quantity;
+	
+	String currencies;
+	
+	String market;
+	
+	String alfanumericCode;
+	
+	String sector;
+	
+	List<EquityDeal> listEquityDeal;
+
+}

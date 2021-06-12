@@ -1,0 +1,19 @@
+package come.project.financialgoalbe.repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import come.project.financialgoalbe.entities.Currencies;
+
+@Repository
+public interface CurrenciesRepository extends JpaRepository<Currencies, Long> {
+	
+	public Currencies findCurrenciesByShortName(String shortName);
+
+	@Query( value = "select short_name from currencies", nativeQuery = true)
+	public List<String> findAllShortName();
+
+}

@@ -1,0 +1,23 @@
+package come.project.financialgoalbe.service;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import come.project.financialgoalbe.entities.BondDeal;
+import come.project.financialgoalbe.entities.Bond;
+
+@Service
+public class FinancialGoalService {
+
+	public List<Bond> getAllBonds() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<BondDeal> getBondsDealByOwner(Long idOwner) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

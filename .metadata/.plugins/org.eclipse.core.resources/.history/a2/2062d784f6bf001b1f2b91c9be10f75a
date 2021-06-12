@@ -1,0 +1,60 @@
+package come.project.financialgoalbe.request;
+
+import java.math.BigDecimal;
+import java.util.Calendar;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import come.project.financialgoalbe.entities.Bond;
+import come.project.financialgoalbe.entities.BondDeal;
+import come.project.financialgoalbe.entities.User;
+import come.project.financialgoalbe.repository.BondRepository;
+import come.project.financialgoalbe.repository.UserRepository;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class BondDealRequest {
+	
+	@Autowired
+	@JsonIgnore
+	private UserRepository userRepository;
+	
+	@Autowired
+	@JsonIgnore
+	private BondRepository bondRepository;
+	
+	private String isin;
+	
+	private BigDecimal price;
+	
+	private BigDecimal quantity;
+	
+	private String folder;
+	
+	private String note;
+	
+	private String typeOfDeal;
+	
+	private Long owner;
+	
+	public BondDeal toEntity() {
+		BondDeal bondDeal = new BondDeal();
+		bondDeal.setIsin(this.isin);
+		bondDeal.setPrice(this.price);
+		bondDeal.setQuantity(this.quantity);
+		bondDeal.setTypeOfDeal(this.typeOfDeal);
+		bondDeal.setNote(this.note);
+		bondDeal.setMovementDate(Calendar.getInstance());
+		User user = userRepository.findUserById(this.owner);
+		bondDeal.setOwner(user);
+		Bond bond = bondRepository.findBondByIsin(this.isin);
+		bondDeal.setBond(bond);
+		
+		return bondDeal;
+	}
+
+}

@@ -1,0 +1,65 @@
+package come.project.financialgoalbe.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import come.project.financialgoalbe.response.BondDealResponse;
+import come.project.financialgoalbe.response.BondResponse;
+import come.project.financialgoalbe.response.CountryResponse;
+import come.project.financialgoalbe.entities.Bond;
+import come.project.financialgoalbe.entities.BondDeal;
+import come.project.financialgoalbe.entities.Country;
+import come.project.financialgoalbe.repository.BondDealRepository;
+import come.project.financialgoalbe.repository.BondRepository;
+import come.project.financialgoalbe.repository.CountryRepository;
+
+@Service
+public class FinancialGoalService {
+	
+	@Autowired
+	BondRepository bondRepository;
+	
+	@Autowired
+	CountryRepository countryRepository;
+	
+	@Autowired
+	BondDealRepository bondDealRepository;
+
+	public List<BondResponse> getAllBonds() {
+		List<Bond> listBond = bondRepository.findAll();
+		List<BondResponse> listBondResponse = new ArrayList();
+		for ( Bond elem : listBond) {
+			BondResponse bondResponse = new BondResponse();
+			bondResponse.toResponse(elem);
+			listBondResponse.add(bondResponse);
+		}
+		return listBondResponse;
+	}
+
+	public List<BondDealResponse> getBondsDealByOwner(Long idOwner) {
+		List<BondDeal> listBondDeal = bondDealRepository.findByOwner(idOwner);
+		List<BondDealResponse> listBondDealResponse = new ArrayList();
+		for ( BondDeal elem : listBondDeal) {
+			BondDealResponse bondDealResponse = new BondDealResponse();
+			bondDealResponse.toResponse(elem);
+			listBondDealResponse.add(bondDealResponse);
+		}
+		return listBondDealResponse;
+	}
+
+	public List<CountryResponse> getAllCountry() {
+		
+		List<Country> listCountry = countryRepository.findAll();
+		List<CountryResponse> listCountryResponse = new ArrayList();
+		for ( Country elem : listCountry) {
+			CountryResponse countryResponse = new CountryResponse();
+			countryResponse.toResponse(elem);
+			listCountryResponse.add(countryResponse);
+		}
+		return listCountryResponse;
+	}
+
+}

@@ -1,0 +1,36 @@
+package come.project.financialgoalbe.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import come.project.financialgoalbe.response.BondDealResponse;
+import come.project.financialgoalbe.response.BondResponse;
+import come.project.financialgoalbe.entities.Bond;
+import come.project.financialgoalbe.repository.BondRepository;
+
+@Service
+public class FinancialGoalService {
+	
+	@Autowired
+	BondRepository bondRepository;
+
+	public List<BondResponse> getAllBonds() {
+		List<Bond> listBond = bondRepository.findAll();
+		List<BondResponse> listBondResponse = new ArrayList();
+		for ( Bond elem : listBond) {
+			BondResponse bondResponse = new BondResponse();
+			bondResponse.toResponse(elem);
+			listBondResponse.add(bondResponse);
+		}
+		return null;
+	}
+
+	public List<BondDealResponse> getBondsDealByOwner(Long idOwner) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

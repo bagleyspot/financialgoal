@@ -1,0 +1,13 @@
+package come.project.financialgoalbe.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import come.project.financialgoalbe.entities.Currencies;
+
+@Repository
+public interface CurrenciesRepository extends JpaRepository<Currencies, Long> {
+	
+	public Currencies findCurrenciesByShortName(String shortName);
+
+}

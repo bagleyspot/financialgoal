@@ -1,0 +1,46 @@
+package come.project.financialgoalbe.response;
+
+import java.math.BigDecimal;
+import java.util.Calendar;
+
+import come.project.financialgoalbe.entities.BondDeal;
+import come.project.financialgoalbe.entities.Folder;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class BondDealResponse {
+
+	Long idDeal;
+	
+	String isin;
+	
+	BigDecimal price;
+	
+	BigDecimal quantity;
+	
+	Folder folder;
+	
+	Calendar movementDate;
+	
+	String typeOfDeal;
+	
+	String note;
+	
+	public BondDeal toEntity() {
+		BondDeal bondDeal = new BondDeal(idDeal,isin,price,quantity,folder,movementDate,typeOfDeal,note);
+		return bondDeal;
+	}
+	
+	public BondDealResponse toResponse (BondDeal obj) {
+		this.idDeal=obj.getIdDeal();
+		this.isin=obj.getIsin();
+		this.price=obj.getPrice();
+		this.folder=obj.getFolder();
+		this.movementDate=obj.getMovementDate();
+		this.typeOfDeal=obj.getTypeOfDeal();
+		this.note=obj.getNote();
+		return this;
+	}
+}

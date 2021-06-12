@@ -1,0 +1,18 @@
+package come.project.financialgoalbe.repository;
+
+import java.util.Calendar;
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import come.project.financialgoalbe.entities.CoupleStringBigDecimal;
+
+public interface CoupleStringBigDecimalRepository extends JpaRepository<CoupleStringBigDecimal,Long> {
+	
+	@Query ( value = "select distinct isin,((select sum(price*quantity) from bond_deal where isin = bd.isin and type_of_deal = 'S')\r\n"
+			+ "-(select sum(price*quantity) from bond_deal where isin = bd.isin and type_of_deal = 'B')) as value\r\n"
+			+ "from bond_deal as bd where movement_date BETWEEN ?1 AND ?2" , nativeQuery = true)
+	public List<CoupleStringBigDecimal> valueBondDeal(Calendar startDate, Calendar endDate);
+
+}

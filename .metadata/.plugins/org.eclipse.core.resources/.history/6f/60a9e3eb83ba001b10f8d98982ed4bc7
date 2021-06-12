@@ -1,0 +1,21 @@
+package come.project.financialgoalbe.entities;
+
+import java.math.BigDecimal;
+import java.util.Calendar;
+
+public class Azione {
+	
+	String isin;
+	
+	BigDecimal price;
+	
+	BigDecimal quantity;
+	
+	Calendar movementDate;
+	
+	String typeOfDeal;
+	
+	String note;
+	
+
+}

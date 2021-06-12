@@ -1,0 +1,52 @@
+package come.project.financialgoalbe.response;
+
+import java.math.BigDecimal;
+import java.util.Calendar;
+
+import come.project.financialgoalbe.entities.Loan;
+
+public class LoanResponse {
+	
+	Long idLoan;
+	
+	String typeOfLoan;
+	
+	String descriptionLoan;
+	
+	String typeOfRate;
+	
+	BigDecimal valueLoan;
+	
+	BigDecimal finalPriceLoan;
+	
+	int duration;
+	
+	String bank;
+	
+	BigDecimal monthlyPayment;
+	
+	BigDecimal rate;
+	
+	Calendar startDate;
+	
+	Calendar endDate;
+	
+	String currencies;
+	
+	public void toResponse(Loan obj) {
+		this.idLoan=obj.getIdLoan();
+		this.typeOfLoan=obj.getTypeOfLoan();
+		this.descriptionLoan=obj.getDescriptionLoan();
+		this.typeOfRate=obj.getTypeOfRate();
+		this.valueLoan=obj.getValueLoan();
+		this.finalPriceLoan=obj.getFinalPriceLoan();
+		this.duration=obj.getDuration();
+		this.bank=obj.getBank();
+		this.monthlyPayment=obj.getMonthlyPayment();
+		this.rate=obj.getRate();
+		this.startDate=obj.getStartDate();
+		this.endDate=obj.getEndDate();
+		this.currencies=obj.getCurrencies().getShortName();
+	}
+
+}

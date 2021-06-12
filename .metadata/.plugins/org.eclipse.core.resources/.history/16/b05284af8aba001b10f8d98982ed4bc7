@@ -1,0 +1,9 @@
+package come.project.financialgoalbe.entities;
+
+public class Currencies {
+	
+	Long idCurrencies;
+	String shortName;
+	String longName;
+
+}

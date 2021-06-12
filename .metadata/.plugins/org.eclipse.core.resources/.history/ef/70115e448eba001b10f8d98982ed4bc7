@@ -1,0 +1,36 @@
+package come.project.financialgoalbe.entities;
+
+import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.List;
+
+import javax.persistence.Entity;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@Entity
+public class Bond {
+	
+	Long idBond;
+	
+	String isin;
+	
+	String description;
+	
+	BigDecimal price;
+	
+	Currencies currencies;
+	
+	BigDecimal cedola;
+	
+	Calendar expire;
+	
+	Country country;
+	
+	List<BondDeal> listBondsDeal;
+
+
+}

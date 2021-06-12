@@ -1,0 +1,25 @@
+package come.project.financialgoalbe.repository;
+
+import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import come.project.financialgoalbe.entities.EquityDeal;
+
+public interface EquityDealRepository extends JpaRepository<EquityDeal,Long>{
+	
+	public EquityDeal save(EquityDeal equityDeal);
+	
+	@Query ( value = "select * from equity_deal where id_user=?2 AND isin = ?1", nativeQuery = true)
+	public List<EquityDeal> findDealByIsinAndOwner(String isin, long idOwner);
+
+	@Query ( value = "select distinct isin,(select sum(price*quantity) from equity_deal where isin = bd.isin and type_of_deal = 'S')\r\n"
+			+ "-(select sum(price*quantity) from equity_deal where isin = bd.isin and type_of_deal = 'B')\r\n"
+			+ "from equity_deal as bd where movement_date BETWEEN ?1 AND ?2" , nativeQuery = true)
+	public HashMap<String,BigDecimal> valueBondDeal(Calendar startDate, Calendar endDate);
+
+}

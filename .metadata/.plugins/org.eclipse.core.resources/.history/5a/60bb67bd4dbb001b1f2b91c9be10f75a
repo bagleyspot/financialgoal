@@ -1,0 +1,85 @@
+package come.project.financialgoalbe.entities;
+
+import java.math.BigDecimal;
+import java.util.Calendar;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@Entity
+@Table ( name = "Loan")
+public class Loan {
+	
+	@Id
+	@GeneratedValue ( strategy = GenerationType.IDENTITY)
+	@Column ( name = "idLoan")
+	Long idLoan;
+	
+	@Column ( name = "typeofLoan")
+	String typeOfLoan;
+	
+	@Column ( name = "descriptionLoan")
+	String descriptionLoan;
+	
+	@Column ( name = "typeOfRate")
+	String typeOfRate;
+	
+	@Column ( name = "valueLoan")
+	BigDecimal valueLoan;
+	
+	@Column ( name = "finalPriceLoan")
+	BigDecimal finalPriceLoan;
+	
+	@Column ( name = "duration")
+	int duration;
+	
+	@Column ( name = "bank") 
+	String bank;
+	
+	@Column ( name = "monthlyPayment")
+	BigDecimal monthlyPayment;
+	
+	@Column ( name = "rate")
+	BigDecimal rate;
+	
+	@Column ( name = "startDate")
+	Calendar startDate;
+	
+	@Column ( name = "endDate")
+	Calendar endDate;
+	
+	/* TODO foreign key */
+	Currencies currencies;
+	/* TODO foreign key */
+	User owner;
+	
+	public Loan(Long idLoan, String typeOfLoan, String descriptionLoan, String typeOfRate, BigDecimal valueLoan, BigDecimal finalPriceLoan,
+				int duration, String bank, BigDecimal monthlyPayment, BigDecimal rate, Calendar startDate,Currencies currencies, User owner)
+			{
+			this.idLoan=idLoan;
+			this.typeOfLoan=typeOfLoan;
+			this.descriptionLoan=descriptionLoan;
+			this.typeOfRate=typeOfRate;
+			this.valueLoan=valueLoan;
+			this.finalPriceLoan=finalPriceLoan;
+			this.duration=duration;
+			this.bank=bank;
+			this.monthlyPayment=monthlyPayment;
+			this.rate=rate;
+			this.startDate=startDate;
+			this.endDate=startDate;
+			this.endDate.add(Calendar.YEAR, duration);
+			this.currencies=currencies;
+			this.owner=owner;
+			}
+
+}

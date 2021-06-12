@@ -1,0 +1,5 @@
+spring.datasource.url=jdbc:sqlserver://localhost;databaseName=financialgoal
+spring.datasource.username=deskc
+spring.datasource.password=sqlserver
+spring.datasource.driverClassName=com.microsoft.sqlserver.jdbc.SQLServerDriver
+spring.jpa.show-sql=true

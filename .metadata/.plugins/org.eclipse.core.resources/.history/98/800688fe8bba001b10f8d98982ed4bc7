@@ -1,0 +1,61 @@
+package come.project.financialgoalbe.entities;
+
+import java.math.BigDecimal;
+import java.util.Calendar;
+
+import javax.persistence.Entity;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@Entity
+public class Loan {
+	
+	Long idLoan;
+	
+	String typeOfLoan;
+	
+	String descriptionLoan;
+	
+	String typeOfRate;
+	
+	BigDecimal valueLoan;
+	
+	BigDecimal finalPriceLoan;
+	
+	int duration;
+	
+	String bank;
+	
+	BigDecimal monthlyPayment;
+	
+	BigDecimal rate;
+	
+	Calendar startDate;
+	
+	Calendar endDate;
+	
+	Currencies currencies;
+	
+	public Loan(Long idLoan, String typeOfLoan, String descriptionLoan, String typeOfRate, BigDecimal valueLoan, BigDecimal finalPriceLoan,
+				int duration, String bank, BigDecimal monthlyPayment, BigDecimal rate, Calendar startDate,Currencies currencies)
+			{
+			this.idLoan=idLoan;
+			this.typeOfLoan=typeOfLoan;
+			this.descriptionLoan=descriptionLoan;
+			this.typeOfRate=typeOfRate;
+			this.valueLoan=valueLoan;
+			this.finalPriceLoan=finalPriceLoan;
+			this.duration=duration;
+			this.bank=bank;
+			this.monthlyPayment=monthlyPayment;
+			this.rate=rate;
+			this.startDate=startDate;
+			this.endDate=startDate;
+			this.endDate.add(Calendar.YEAR, duration);
+			this.currencies=currencies;
+			}
+
+}

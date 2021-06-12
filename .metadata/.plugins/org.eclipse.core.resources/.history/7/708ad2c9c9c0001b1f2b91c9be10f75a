@@ -1,0 +1,17 @@
+package come.project.financialgoalbe.repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import come.project.financialgoalbe.entities.BondDeal;
+
+public interface BondDealRepository extends JpaRepository<BondDeal,Long>{
+	
+	@Query( value = "select * from bond_deal where id_user=?1", nativeQuery = true)
+	public List<BondDeal> findBondDealByOwner(Long idOwner);
+	
+	public BondDeal save(BondDeal bondDeal);
+
+}

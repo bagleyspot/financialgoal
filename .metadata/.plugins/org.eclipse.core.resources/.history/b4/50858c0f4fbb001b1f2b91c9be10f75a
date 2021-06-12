@@ -1,0 +1,15 @@
+package come.project.financialgoalbe.repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import come.project.financialgoalbe.entities.Bond;
+
+public interface BondRepository extends JpaRepository<Bond,Long>{
+	
+	@Query ( value = "select * from Bond", nativeQuery=true)
+	public List<Bond> getAllBonds();
+
+}

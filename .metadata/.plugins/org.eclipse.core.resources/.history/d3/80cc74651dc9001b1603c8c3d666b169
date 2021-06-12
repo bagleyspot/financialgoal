@@ -1,0 +1,279 @@
+package come.project.financialgoalbe.service;
+
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import come.project.financialgoalbe.response.BondDealResponse;
+import come.project.financialgoalbe.response.BondResponse;
+import come.project.financialgoalbe.response.CountryResponse;
+import come.project.financialgoalbe.response.EquityDealResponse;
+import come.project.financialgoalbe.response.EquityResponse;
+import come.project.financialgoalbe.response.FolderResponse;
+import come.project.financialgoalbe.response.LoanResponse;
+import come.project.financialgoalbe.response.StatisticResponse;
+import come.project.financialgoalbe.entities.Bond;
+import come.project.financialgoalbe.entities.BondDeal;
+import come.project.financialgoalbe.entities.Country;
+import come.project.financialgoalbe.entities.CoupleStringBigDecimal;
+import come.project.financialgoalbe.entities.DataChart;
+import come.project.financialgoalbe.entities.Equity;
+import come.project.financialgoalbe.entities.EquityDeal;
+import come.project.financialgoalbe.entities.Folder;
+import come.project.financialgoalbe.entities.Loan;
+import come.project.financialgoalbe.repository.BondDealRepository;
+import come.project.financialgoalbe.repository.BondRepository;
+import come.project.financialgoalbe.repository.CountryRepository;
+import come.project.financialgoalbe.repository.CoupleStringBigDecimalRepository;
+import come.project.financialgoalbe.repository.CurrenciesRepository;
+import come.project.financialgoalbe.repository.DataChartRepository;
+import come.project.financialgoalbe.repository.EquityDealRepository;
+import come.project.financialgoalbe.repository.EquityRepository;
+import come.project.financialgoalbe.repository.FolderRepository;
+import come.project.financialgoalbe.repository.LoanRepository;
+import come.project.financialgoalbe.repository.UserRepository;
+import come.project.financialgoalbe.request.BondDealRequest;
+import come.project.financialgoalbe.request.EquityDealRequest;
+import come.project.financialgoalbe.request.LoanRequest;
+
+@Service
+public class FinancialGoalService {
+	
+	@Autowired
+	BondRepository bondRepository;
+	
+	@Autowired
+	EquityRepository equityRepository;
+	
+	@Autowired
+	CountryRepository countryRepository;
+	
+	@Autowired
+	BondDealRepository bondDealRepository;
+	
+	@Autowired
+	UserRepository userRepository;
+	
+	@Autowired
+	FolderRepository folderRepository;
+	
+	@Autowired
+	EquityDealRepository equityDealRepository;
+	
+	@Autowired
+	LoanRepository loanRepository;
+	
+	@Autowired
+	CurrenciesRepository currenciesRepository;
+	
+	@Autowired
+	DataChartRepository dateChartRepository;
+	
+	@Autowired
+	CoupleStringBigDecimalRepository coupleStringBigDecimalRepository;
+
+	public List<BondResponse> getAllBonds() {
+		List<Bond> listBond = bondRepository.findAll();
+		List<BondResponse> listBondResponse = new ArrayList();
+		for ( Bond elem : listBond) {
+			BondResponse bondResponse = new BondResponse();
+			bondResponse.toResponse(elem);
+			listBondResponse.add(bondResponse);
+		}
+		return listBondResponse;
+	}
+	
+	public List<EquityResponse> getAllEquity() {
+		List<Equity> listEquity = equityRepository.findAll();
+		List<EquityResponse> listEquityResponse = new ArrayList();
+		for ( Equity elem : listEquity) {
+			EquityResponse equityResponse = new EquityResponse();
+			equityResponse.toResponse(elem);
+			listEquityResponse.add(equityResponse);
+		}
+		return listEquityResponse;
+	}
+
+	public List<BondDealResponse> getBondsDealByOwner(long idOwner) {
+		List<BondDeal> listBondDeal = bondDealRepository.findBondDealByOwner(idOwner);
+		List<BondDealResponse> listBondDealResponse = new ArrayList();
+		for ( BondDeal elem : listBondDeal) {
+			BondDealResponse bondDealResponse = new BondDealResponse();
+			bondDealResponse.toResponse(elem);
+			listBondDealResponse.add(bondDealResponse);
+		}
+		return listBondDealResponse;
+	}
+
+	public List<CountryResponse> getAllCountry() {
+		
+		List<Country> listCountry = countryRepository.findAll();
+		List<CountryResponse> listCountryResponse = new ArrayList();
+		for ( Country elem : listCountry) {
+			CountryResponse countryResponse = new CountryResponse();
+			countryResponse.toResponse(elem);
+			listCountryResponse.add(countryResponse);
+		}
+		return listCountryResponse;
+	}
+
+	public String operationBond(BondDealRequest bondDealReq) {
+		BondDeal bondDeal = bondDealReq.toEntity(userRepository, bondRepository, folderRepository);
+		bondDeal = bondDealRepository.save(bondDeal);
+		if ( bondDeal == null) {
+			return "Operation not registered";
+		}
+		else {
+			if ( bondDeal.getTypeOfDeal().equals("B")) return "Purchase registered";
+			else return "Sale registered";
+		}
+	}
+	
+	public String operationEquity(EquityDealRequest equityDealReq) {
+		EquityDeal equityDeal = equityDealReq.toEntity(equityRepository, userRepository, folderRepository);
+		equityDeal = equityDealRepository.save(equityDeal);
+		if ( equityDeal == null) {
+			return "Operation not registered";
+		}
+		else {
+			if ( equityDeal.getTypeOfDeal().equals("B")) return "Puchase registered";
+			else return "Sale registered";
+		}
+	}
+
+	public List<String> getFolderbyOwneer(int idOwner) {
+		List<String> listFolder = folderRepository.findFolderByOwner(idOwner);
+		return listFolder;
+	}
+
+	public List<EquityResponse> getAllEquityByOwner(int id,String shortName) {
+		List<Equity> equity = equityRepository.findAllByOwner(id,shortName);
+		List<EquityResponse> listEquityResponse = new ArrayList();
+		
+		for( Equity elem : equity) {
+			EquityResponse equityResponse = new EquityResponse();
+			equityResponse = equityResponse.toResponse(elem);
+			listEquityResponse.add(equityResponse);
+			}
+		return listEquityResponse;
+	}
+	
+	public List<BondResponse> getAllBondByOwner(int id, String folder) {
+		List<Bond> listBonds = bondRepository.findAllByOwner(id,folder);
+		List<BondResponse> listBondResponse = new ArrayList();
+		
+		for (Bond elem : listBonds) {
+			BondResponse bondResponse = new BondResponse();
+			bondResponse = bondResponse.toResponse(elem);
+			listBondResponse.add(bondResponse);
+		}
+		return listBondResponse;
+	}
+
+	public List<EquityDealResponse> getEquityDealByIsinAndOwner(String isin, long idOwner) {
+		List<EquityDeal> listEquityDeal = equityDealRepository.findDealByIsinAndOwner(isin,idOwner);
+		List<EquityDealResponse> listEquityDealResponse = new ArrayList();
+		for(EquityDeal elem : listEquityDeal) {
+			EquityDealResponse eqd = new EquityDealResponse();
+			eqd = eqd.toResponse(elem);
+			listEquityDealResponse.add(eqd);
+		}
+		return listEquityDealResponse;
+	}
+
+	public List<BondDealResponse> getBondDealByIsinAndOwner(String isin, long idOwner) {
+		List<BondDeal> listBondDeal = bondDealRepository.findDealByIsinAndOwner(isin,idOwner);
+		List<BondDealResponse> listBondDealResponse = new ArrayList();
+		for( BondDeal elem : listBondDeal) {
+			BondDealResponse bdr = new BondDealResponse();
+			bdr = bdr.toResponse(elem);
+			listBondDealResponse.add(bdr);
+		}
+		return listBondDealResponse;
+	}
+
+	public List<LoanResponse> getAllLoansByOwner(Long id) {
+		List<Loan> listLoan = loanRepository.getAllLoansByOwner(id);
+		List<LoanResponse> listLoanResponse = new ArrayList<>();
+		for (Loan elem : listLoan) {
+			LoanResponse loan = new LoanResponse();
+			loan.toResponse(elem);
+			listLoanResponse.add(loan);
+		}
+		return listLoanResponse;
+	}
+
+	public Boolean addEditLoan(LoanRequest loan) {
+		Loan loanEntity = loan.toEntity(currenciesRepository, userRepository);
+		Loan response = loanRepository.save(loanEntity);
+		if ( response == null) return false;
+		else return true;
+	}
+
+	public List<String> getCurrencies() {
+		List<String> listCurrencies= currenciesRepository.findAllShortName();
+		return listCurrencies;
+	}
+	
+	/**
+	 * Metodo che mi va a realizzare la statistica in un range di date, queste statistiche
+	 * comprendono, entrate, uscite, percentuali delle uscite rispetto alle entrate, dati per il grafico
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 * @throws ParseException 
+	 */
+	public StatisticResponse elaborationStatistics(String reqs, String reqe) throws ParseException {
+		
+		Calendar startDate = Calendar.getInstance();
+		Calendar endDate = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd",Locale.ENGLISH);
+		startDate.setTime(sdf.parse(reqs));
+		endDate.setTime(sdf.parse(reqe));
+		
+		
+		BigDecimal valuePositionBond = new BigDecimal(0);
+		BigDecimal valuePositionEquity = new BigDecimal(0);
+		BigDecimal allBuyBond = new BigDecimal(0);
+		BigDecimal allSellBond = new BigDecimal(0);
+		BigDecimal allBuyEquity = new BigDecimal(0);
+		BigDecimal allSellEquity = new BigDecimal(0);
+		BigDecimal monthlyLoan = new BigDecimal(0);
+				
+				
+		//Vado a prelevare l'elenco di tutti i bond con il valore finale (sell-buy) in un range di date
+		List<CoupleStringBigDecimal> listValueIsinBond = coupleStringBigDecimalRepository.valueBondDeal(startDate,endDate);
+		//Vado a prelevare l'elenco di tutti gli equity con il valore finale (sell-buy) in un range di date
+		HashMap<String, BigDecimal> listValueIsinEquity = equityDealRepository.valueEquityDeal(startDate,endDate);
+		HashMap<Integer, BigDecimal> listMonthlyPaymentLoan = loanRepository.getMonthlyPaymentLoans(startDate, endDate);
+		//Vado a prelevare la lista per data di tutti i movimenti fatti in un range di date
+		List<DataChart> listDateChart = dateChartRepository.getDataChartFromRange(startDate,endDate);
+		
+		//Determino il valore totale di tutte le posizioni bond
+		for ( CoupleStringBigDecimal key : listValueIsinBond) {
+			valuePositionBond = valuePositionBond.add(key.getBigDecimal());
+		}
+		//Determino il valore totale di tutte le posizioni equity
+		for ( String key : listValueIsinEquity.keySet()) {
+			valuePositionEquity = valuePositionEquity.add(listValueIsinEquity.get(key));
+		}
+		for ( Integer key : listMonthlyPaymentLoan.keySet()) {
+			monthlyLoan = monthlyLoan.add(listMonthlyPaymentLoan.get(key));
+		}
+		
+		return null;
+		
+		
+		
+	}
+
+
+}
